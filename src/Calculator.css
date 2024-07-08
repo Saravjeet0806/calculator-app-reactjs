@@ -38,3 +38,24 @@ button:hover{
     background-color: black;
     color: white;
 }
+
+/* media queries */
+@media (max-width: 600px) {
+    .calculator{
+        max-width: 100%;
+        padding: 10px;
+    }
+    .display{
+        padding: 10px;
+    }
+    .input, .result{
+        font-size: 20px;
+    }
+    button{
+        padding: 15px;
+        font-size: 18px;
+    }
+    .buttons{
+        gap: 5px;
+    }
+}
