@@ -1,35 +1,18 @@
-# Use Node.js as the base image
-FROM node:18-alpine AS build
+# Base image for building the app
+FROM node:18 AS build
 
-# Set the working directory
 WORKDIR /app
-
-# Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
-
-# Install dependencies
 RUN npm install
-
-# Copy the rest of the application files
-COPY . .
-
-# Build the React application
+COPY . . 
 RUN npm run build
 
-# Use a lightweight Node.js image to serve the app
-FROM node:18-alpine
+# Base image for serving the app
+FROM node:18 AS serve
 
-# Set the working directory
 WORKDIR /app
-
-# Install Express.js
+COPY --from=build /app/build ./build
 RUN npm install -g serve
-
-# Copy the built React app from the build stage
-COPY --from=build /app/build /app/build
-
-# Expose the port
-EXPOSE 3000
-
-# Start the React app using serve
 CMD ["serve", "-s", "build", "-l", "3000"]
+
+EXPOSE 3000
